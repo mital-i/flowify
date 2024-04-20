@@ -1,10 +1,12 @@
 import json
 import google.generativeai as genai
 import PIL.Image
+from dotenv import load_dotenv
 import os
 
 def authenticate():
-    api_key = os.environ.get('API_KEY')
+    load_dotenv()
+    api_key = os.getenv('GOOGLE_API_KEY')
     if api_key is None:
         raise ValueError("API_KEY environment variable not set!")
 
@@ -31,7 +33,6 @@ def fetch_songs():
                                                 "Dancing Queen": ["ABBA"],
                                                 "Don't Stop Me Now": ["Queen"]
                                             }}""").text 
-
     start_idx = songs.index('{')
     end_idx =  songs.index('}')
 

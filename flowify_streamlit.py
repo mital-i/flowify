@@ -1,9 +1,12 @@
 import streamlit as st
 import pandas as pd
+import requests
+import spotipy_api
+
  
 st.write("""
-# My first app
-Hello *world!*
+# flowify
+upload a picture and generate a custom playlist based on the vibe!
 """) 
 
 def main():
@@ -16,6 +19,22 @@ def main():
     st.write(f"Filename: {filename}")
     st.write(f"File type: {file_type}")
     st.write(f"File size: {file_size} bytes")
+
+    data = {"image": uploaded_file}  # You can use a different format if needed
+
+    # Send a POST request with the image data to the FastAPI endpoint
+    response = requests.post("http://localhost:8000/parse_image", files=data)
+    if response.status_code == 200:
+      data = response.json()
+      st.success(data["message"])
+      # Display any additional parsing results from the backend (if available)
+      # For example: st.write(f"Image format: {data['format']}")
+    else:
+      st.error("Error sending request to backend")
+
+    #display playlist information
+    playlist_id = "37i9dQZF1DXcBWIGoYBM5M"
+    spotipy_api.display_playlist(playlist_id)
   
 if __name__ == "__main__":
   main()
