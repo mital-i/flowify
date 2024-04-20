@@ -46,3 +46,5 @@ def spotify_oauth():
             st.session_state["auth_url"] = auth_url
             st.write("Click the button below to authorize:")
             st.write(auth_url)
+
+            
