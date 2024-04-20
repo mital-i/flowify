@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import requests
 import spotipy_api
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
 
  
 st.write("""
@@ -9,7 +11,7 @@ st.write("""
 upload a picture and generate a custom playlist based on the vibe!
 """) 
 
-def main():
+def upload_file(): 
   uploaded_file = st.file_uploader("Choose an image", type=["jpg", "png", "jpeg"])
   # ... rest of your app logic using the uploaded_file object
   if uploaded_file is not None:
@@ -32,9 +34,15 @@ def main():
     else:
       st.error("Error sending request to backend")
 
-    #display playlist information
-    playlist_id = "37i9dQZF1DXcBWIGoYBM5M"
-    spotipy_api.display_playlist(playlist_id)
+def main():
+  upload_file()
+  #display playlist information
+  
+  #playlist_id = "37i9dQZF1DXcBWIGoYBM5M"
+  #spotipy_api.display_playlist(playlist_id)
+  
+  #display auth button 
+  spotipy_api.spotify_oauth()
   
 if __name__ == "__main__":
   main()
