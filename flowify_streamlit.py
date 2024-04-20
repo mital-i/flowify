@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import requests
+import spotipy_api
 
  
 st.write("""
@@ -30,6 +31,10 @@ def main():
       # For example: st.write(f"Image format: {data['format']}")
     else:
       st.error("Error sending request to backend")
+
+    #display playlist information
+    playlist_id = "37i9dQZF1DXcBWIGoYBM5M"
+    spotipy_api.display_playlist(playlist_id)
   
 if __name__ == "__main__":
   main()
