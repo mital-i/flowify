@@ -3,13 +3,16 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.oauth2 import SpotifyOAuth
 import streamlit as st
+from dotenv import load_dotenv
+import os
 
 
-# ... (Replace with your credentials)
-client_id = "b6d5d4c9193347ec86496ebec8ccb7cf"
-client_secret = "6c748a90b2ae41869a0f689122be1d35"
-redirect_uri = "http://localhost:8501/"
+load_dotenv()
 
+redirect_uri = "http://localhost:8000/callback"
+client_id=os.getenv('CLIENT_ID')
+client_secret=os.getenv('CLIENT_SECRET')
+#change scope during merge
 client_credentials_manager = SpotifyClientCredentials(client_id, client_secret)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
@@ -33,7 +36,6 @@ def display_playlist(playlist_id):
         artist_name = track["track"]["artists"][0]["name"]
         st.write(f"- {track_name} by {artist_name}")
 
-    
 #display button for users to authenticate log in 
 def spotify_oauth():
     if not st.session_state.get("auth_token"):
@@ -49,6 +51,17 @@ def spotify_oauth():
             st.write(auth_url)
 
             webbrowser.open(auth_url)
-            st.write("Authentication successful!!")
+            if st.session_state.get("access_token"):
+                # Access token found in session state, indicate successful authorization
+                st.success("Authorization successful! You can now access Spotify data.")
+            else:
+                # Access token not found, handle potential errors
+                error_msg = st.session_state.get("error_msg")
+                if error_msg:
+                    st.error(f"Authorization error: {error_msg}")
+                else:
+                    # No error message available, display generic message
+                    st.warning("Authorization status unknown. Please try again.")
+
 
         
