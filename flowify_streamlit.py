@@ -7,7 +7,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 
  
 st.write("""
-# flowify
+# flowify <3
 upload a picture and generate a custom playlist based on the vibe!
 """) 
 
@@ -18,9 +18,6 @@ def upload_file():
     filename = uploaded_file.name
     file_type = uploaded_file.type
     file_size = uploaded_file.size
-    st.write(f"Filename: {filename}")
-    st.write(f"File type: {file_type}")
-    st.write(f"File size: {file_size} bytes")
 
     data = {"image": uploaded_file}  # You can use a different format if needed
 
