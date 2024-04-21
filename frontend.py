@@ -1,10 +1,9 @@
 import streamlit as st
 import pandas as pd
 import requests
-import spotipy_api
-import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
+import auth
 from gemini import authenticate, fetch_songs
+from spotify_client import SpotifyClient
 
 st.write("""
 # flowify <3
@@ -20,25 +19,23 @@ def upload_file():
     file_size = uploaded_file.size
 
     data = {"image": uploaded_file}  # You can use a different format if needed
+    st.write(uploaded_file)
 
     # Send a POST request with the image data to the FastAPI endpoint
     response = requests.post("http://localhost:8000/parse_image", files=data)
-    if response.status_code == 200:
-      data = response.json()
-      st.success(data["message"])
+    print('status', response.status_code)
+    print('datatta', data)
+    # if response.status_code == 200:
+    #   data = response.json()
+    st.success("Uploaded successfully!")
+
       # Display any additional parsing results from the backend (if available)
       # For example: st.write(f"Image format: {data['format']}")
-    else:
-      st.error("Error sending request to backend")
+    # else:
+    #   st.error("Error sending request to backend")
 
 def main():
-  upload_file()
 
-  # authenticate()
-  # songs = fetch_songs()
-  # print('SONGS:::_____')
-  # print(songs)
-  # print('END-------')
   
   #display playlist information
   
@@ -46,8 +43,14 @@ def main():
   #spotipy_api.display_playlist(playlist_id)
   
   #display auth button 
-  spotipy_api.spotify_oauth()
-  spotipy_api.test()
+  auth.spotify_oauth()
+  upload_file()
+
+  authenticate()
+  song_to_artists = fetch_songs()
+
+  spotify_client = SpotifyClient()
+  spotify_client.add_songs_to_playlist(song_to_artists)
   
 if __name__ == "__main__":
   main()

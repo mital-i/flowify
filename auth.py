@@ -4,22 +4,17 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.oauth2 import SpotifyOAuth
 import streamlit as st
 from dotenv import load_dotenv
+from spotify_client import SpotifyClient
 import os
 
 
 load_dotenv()
 
 redirect_uri = "http://localhost:8000/callback"
-client_id=os.getenv('CLIENT_ID')
-client_secret=os.getenv('CLIENT_SECRET')
-#change scope during merge
-client_credentials_manager = SpotifyClientCredentials(client_id, client_secret)
-sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
-
-# ... (Implement user authorization flow to obtain an access token)
+spotify_client = SpotifyClient().get_client()
 
 def display_playlist(playlist_id):
-    playlist_data = sp.playlist(playlist_id)
+    playlist_data = spotify_client.playlist(playlist_id)
     playlist_url = f"https://open.spotify.com/embed/playlist/{playlist_id}"
     st.button("Open in Spotify", on_click=lambda: webbrowser.open(playlist_url))
 
@@ -41,10 +36,10 @@ def spotify_oauth():
     if not st.session_state.get("auth_token"):
         st.info("Authorize with Spotify to access your data.")
         if st.button("Authorize"):
-            sp_oauth = SpotifyOAuth(client_id=client_id,
-                            client_secret=client_secret,
+            sp_oauth = SpotifyOAuth(client_id=os.getenv('CLIENT_ID'),
+                            client_secret=os.getenv('CLIENT_SECRET'),
                             redirect_uri=redirect_uri,
-                            scope="playlist-read-private")   # Replace with your scopes
+                            scope="playlist-read-private playlist-modify-private")   
             auth_url = sp_oauth.get_authorize_url()
             st.session_state["auth_url"] = auth_url
             st.write("Click the button below to authorize:")
