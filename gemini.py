@@ -21,7 +21,7 @@ def fetch_songs():
 
     model = genai.GenerativeModel('gemini-pro')
 
-    songs = model.generate_content(f"""Given this string: '{img_response.text}', parse and output just the songs and artist names and store it into a dictionary. Sample output format: {{
+    songs = model.generate_content(f"""Given this string: '{img_response.text}', parse and output just the songs and artist names and store it into a dictionary. The json format must store the songs and artist names as strings with double quotes. Sample output format: {{
                                                 "Some Beach": ["Blake Shelton"],
                                                 "Soak Up the Sun": ["Sheryl Crow"],
                                                 "Island in the Sun": ["Weezer"],

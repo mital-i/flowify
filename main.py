@@ -14,4 +14,9 @@ async def parse_image(image: UploadFile = File(...)):
 async def root():
     authenticate()
     songs = fetch_songs()
+
+    print('SONGS:::_____')
+    print(songs)
+    print('END-------')
+    
     return {"message": songs}

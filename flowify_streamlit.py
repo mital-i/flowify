@@ -4,8 +4,8 @@ import requests
 import spotipy_api
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+from gemini import authenticate, fetch_songs
 
- 
 st.write("""
 # flowify
 upload a picture and generate a custom playlist based on the vibe!
@@ -36,6 +36,13 @@ def upload_file():
 
 def main():
   upload_file()
+
+  # authenticate()
+  # songs = fetch_songs()
+  # print('SONGS:::_____')
+  # print(songs)
+  # print('END-------')
+  
   #display playlist information
   
   #playlist_id = "37i9dQZF1DXcBWIGoYBM5M"
@@ -43,6 +50,7 @@ def main():
   
   #display auth button 
   spotipy_api.spotify_oauth()
+  spotipy_api.test()
   
 if __name__ == "__main__":
   main()
