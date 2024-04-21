@@ -45,7 +45,7 @@ def main():
   #display auth button 
   auth.spotify_oauth()
   upload_file()
-
+  
   authenticate()
   song_to_artists = fetch_songs()
 
