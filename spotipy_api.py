@@ -4,6 +4,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from spotipy.oauth2 import SpotifyOAuth
 import streamlit as st
 
+
 # ... (Replace with your credentials)
 client_id = "b6d5d4c9193347ec86496ebec8ccb7cf"
 client_secret = "6c748a90b2ae41869a0f689122be1d35"
@@ -43,8 +44,7 @@ def spotify_oauth():
                             redirect_uri=redirect_uri,
                             scope="playlist-read-private")   # Replace with your scopes
             auth_url = sp_oauth.get_authorize_url()
-            st.session_state["auth_url"] = auth_url
-            st.write("Click the button below to authorize:")
-            st.write(auth_url)
+            webbrowser.open(auth_url)
+            st.write("Authentication successful!!")
 
             
